@@ -3,99 +3,31 @@
 # Power by Zongsheng Yue 2019-09-02 15:11:05
 
 import cv2
-import numpy as np
+import torch
 import random
+import numpy as np
 from skimage import img_as_ubyte
-from utils import imshow
 import scipy.stats as ss
 
-def data_augmentation(image, mode):
+class MixUp_AUG:
     '''
-    Performs data augmentation of the input image
-    Input:
-        image: a cv2 (OpenCV) image
-        mode: int. Choice of transformation to apply to the image
-                0 - no transformation
-                1 - flip up and down
-                2 - rotate counterwise 90 degree
-                3 - rotate 90 degree and flip up and down
-                4 - rotate 180 degree
-                5 - rotate 180 degree and flip
-                6 - rotate 270 degree
-                7 - rotate 270 degree and flip
+    This mix up strategy is borrowed from https://github.com/swz30/MPRNet
     '''
-    if mode == 0:
-        # original
-        out = image
-    elif mode == 1:
-        # flip up and down
-        out = np.flipud(image)
-    elif mode == 2:
-        # rotate counterwise 90 degree
-        out = np.rot90(image)
-    elif mode == 3:
-        # rotate 90 degree and flip up and down
-        out = np.rot90(image)
-        out = np.flipud(out)
-    elif mode == 4:
-        # rotate 180 degree
-        out = np.rot90(image, k=2)
-    elif mode == 5:
-        # rotate 180 degree and flip
-        out = np.rot90(image, k=2)
-        out = np.flipud(out)
-    elif mode == 6:
-        # rotate 270 degree
-        out = np.rot90(image, k=3)
-    elif mode == 7:
-        # rotate 270 degree and flip
-        out = np.rot90(image, k=3)
-        out = np.flipud(out)
-    else:
-        raise Exception('Invalid choice of image transformation')
+    def __init__(self):
+        self.dist = torch.distributions.beta.Beta(torch.tensor([0.6]), torch.tensor([0.6]))
 
-    return out
+    def aug(self, rgb_gt, rgb_noisy):
+        bs = rgb_gt.size(0)
+        indices = torch.randperm(bs)
+        rgb_gt2 = rgb_gt[indices]
+        rgb_noisy2 = rgb_noisy[indices]
 
-def inverse_data_augmentation(image, mode):
-    '''
-    Performs inverse data augmentation of the input image
-    '''
-    if mode == 0:
-        # original
-        out = image
-    elif mode == 1:
-        out = np.flipud(image)
-    elif mode == 2:
-        out = np.rot90(image, axes=(1,0))
-    elif mode == 3:
-        out = np.flipud(image)
-        out = np.rot90(out, axes=(1,0))
-    elif mode == 4:
-        out = np.rot90(image, k=2, axes=(1,0))
-    elif mode == 5:
-        out = np.flipud(image)
-        out = np.rot90(out, k=2, axes=(1,0))
-    elif mode == 6:
-        out = np.rot90(image, k=3, axes=(1,0))
-    elif mode == 7:
-        # rotate 270 degree and flip
-        out = np.flipud(image)
-        out = np.rot90(out, k=3, axes=(1,0))
-    else:
-        raise Exception('Invalid choice of image transformation')
+        lam = self.dist.rsample((bs,1)).view(-1,1,1,1).cuda()
 
-    return out
+        rgb_gt    = lam * rgb_gt + (1-lam) * rgb_gt2
+        rgb_noisy = lam * rgb_noisy + (1-lam) * rgb_noisy2
 
-def random_augmentation(*args):
-    out = []
-    if random.randint(0,1) == 1:
-        flag_aug = random.randint(1,7)
-        for data in args:
-            out.append(data_augmentation(data, flag_aug).copy())
-    else:
-        for data in args:
-            out.append(data)
-    return out
+        return rgb_gt, rgb_noisy
 
 def rgb2ycbcr(img):
     '''
@@ -147,37 +79,4 @@ def gm_blur_kernel(mean, cov, size=25):
 
     k = k / np.sum(k)
     return k
-
-def random_scale():
-    flag = random.randint(1,6)
-    if flag == 1:
-        scale = 2
-    elif flag > 1 and flag < 4:
-        scale = 3
-    else:
-        scale = 4
-    return int(scale)
-
-if __name__ == '__main__':
-    # aa = np.random.randn(4,4)
-    # for ii in range(8):
-        # bb1 = data_augmentation(aa, ii)
-        # bb2 = inverse_data_augmentation(bb1, ii)
-        # if np.allclose(aa, bb2):
-            # print('Flag: {:d}, Sccessed!'.format(ii))
-        # else:
-            # print('Flag: {:d}, Failed!'.format(ii))
-
-    import matplotlib.pyplot as plt
-    l1_max_root = 8
-    print('L1_Max={:3d}'.format(l1_max_root))
-    for ii in range(20):
-        l1 = 0.1 + random.random() * l1_max_root
-        l2 = 0.1 + random.random() * (l1-0.1)
-        theta = random.random() * np.pi
-        print('l1={:.2f}, l2={:.2f}, theta={:.2f}'.format(l1, l2, theta))
-        kernel = anisotropic_Gaussian(25, theta, l1**2, l2**2)
-        plt.figure('Kernel')
-        imshow(kernel)
-        plt.pause(0.5)
 
