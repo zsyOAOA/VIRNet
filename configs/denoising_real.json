@@ -1,32 +1,37 @@
 {
     # training settings
-    "batch_size": 32, 
+    "im_chn": 3, 
+    "sigma_chn": 3, 
+    "batch_size": 16, 
     "patch_size": 128, 
-    "epochs": 80,
-    "lr": 2e-4,  
+    "epochs": 150,
+    "warmup_epochs": 10,   # epochs for warmup
+    "lr": 1e-4,  
     "print_freq": 100,
-    "num_workers": 4, 
+    "num_workers": 8, 
+    "prefetch_factor": 2, 
     "gpu_id": 0,
-    "model_dir": "./models_save",
-    "log_dir": "./logs_save",
-    "milestones": [20, 40, 50, 60, 65, 70, 75, 80],
+    "save_dir": "./train_record",
     "resume": "",
+    "port": 1234,            # port for distributed training
 
     # network architecture
-    "wf": 64,
-    "dep_U": 4,
     "dep_S": 8,
+    "n_resblocks": 3,
+    "n_feat": [96, 160, 224, 288], # number or feature for ResUNet
+    "noise_cond": "True",       # noise condition
+    "extra_mode": "Input",       #  Null Input or Both
 
     # training and validation data path
-    "SIDD_dir": "/ssd1t/SIDD",
-    "Renoir_dir": "/ssd1t/Renoir",
-    "PolyU_dir": "/ssd1t/PolyU",
+    "train_pch_dir":   "/data2/zongsheng/data/real_small_patchs/noisy",
+    "test_noisy_path": "/data2/zongsheng/data/SIDD/ValidationNoisyBlocksSrgb.mat",
+    "test_gt_path":    "/data2/zongsheng/data/SIDD/ValidationGtBlocksSrgb.mat", 
 
     # cliping the gradient
-    "clip_grad_D": 1e4,  
-    "clip_grad_S": 5e2,
+    "clip_grad_R": 5e2,  
+    "clip_grad_S": 1e2,
 
     # hyper-parameters of our model
-    "radius": 3,
+    "var_window": 7,
     "eps2": 1e-6
 }

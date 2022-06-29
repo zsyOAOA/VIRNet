@@ -1,0 +1,40 @@
+{
+    # training settings
+    "im_chn": 3, 
+    "sigma_chn": 1, 
+    "batch_size": 16, 
+    "patch_size": 128, 
+    "epochs": 100,
+    "warmup_epochs": 5,   # epochs for warmup
+    "lr": 1e-4,
+    "lr_min": 1e-6,
+    "print_freq": 100,
+    "num_workers": 8, 
+    "prefetch_factor": 2, 
+    "gpu_id": "0",
+    "save_dir": "./models_save",
+    "resume": "",
+    "port": 1234,    # port for distributed training
+
+    # network architecture
+    "dep_S": 5,
+    "n_feat": [96, 192, 288], 
+    "n_resblocks": 3,
+    "net_type": "AttResUNet",  
+    "noise_cond": "True",      
+    "extra_mode": "Input",      
+
+    # training and validation data path
+    "CBSD_path": "/home/zongsheng/data/CBSD432",  # *.jpg
+    "WED_path":  "/home/zongsheng/data/waterloo",  # *.bmp
+    "Flickr":    "/home/zongsheng/data/Flickr2K/Flickr2K_HR", # *.png
+    "DIV2K":     "/home/zongsheng/data/DIV2K/train", # *.png
+
+    # cliping the gradient
+    "clip_grad_R": 1e3, 
+    "clip_grad_S": 1e2,
+
+    # hyper-parameters of our model
+    "var_window": 7,
+    "eps2": 1e-6
+}

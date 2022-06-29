@@ -6,7 +6,7 @@ import torch.nn as nn
 from .SubBlocks import conv3x3
 
 class DnCNN(nn.Module):
-    def __init__(self, in_channels, out_channels, dep=5, num_filters=64):
+    def __init__(self, in_channels, out_channels, dep=5, num_filters=64, noise_avg=False):
         '''
         Reference:
         K. Zhang, W. Zuo, Y. Chen, D. Meng and L. Zhang, "Beyond a Gaussian Denoiser: Residual
@@ -27,6 +27,10 @@ class DnCNN(nn.Module):
             mid_layer.append(nn.LeakyReLU(0.25, True))
         self.mid_layer = nn.Sequential(*mid_layer)
         self.conv_last = conv3x3(num_filters, out_channels, bias=True)
+        if noise_avg:
+            self.global_avg = nn.AdaptiveAvgPool2d((1,1))
+        else:
+            self.global_avg = nn.Identity()
 
         self._initialize()
 
@@ -34,7 +38,8 @@ class DnCNN(nn.Module):
         x = self.conv1(x)
         x = self.relu(x)
         x = self.mid_layer(x)
-        out = self.conv_last(x)
+        x = self.conv_last(x)
+        out = self.global_avg(x)
 
         return out
 

@@ -1,0 +1,48 @@
+{
+    # training settings
+    "im_chn": 3,    # Image channel
+    "sigma_chn": 1, # Number of channel for the estimated noise varaince map
+    "hr_size": 96, 
+    "batch_size": 16, 
+    "epochs": 100,
+    "lr": 1e-4,
+    "lr_min": 5e-6, 
+    "print_freq": 100,
+    "num_workers": 8, 
+    "prefetch_factor": 2, 
+    "gpu_id": 0,
+    "save_dir": "./train_save",
+    "resume": "",
+
+    # network architecture
+    "dep_S": 5,
+    "dep_K": 8,
+    "n_feat": [96, 160, 224], 
+    "n_resblocks": 2, 
+    "extra_mode": "Input",
+    "noise_cond": "True",
+    "kernel_cond": "True",
+
+    # training and validation data path
+    "train_hr_patchs": "/home/jupyter/data/sisr_hr_patchs", 
+    "val_hr_path": "./test_data/Set14", # *.bmp,
+    "add_jpeg": "False",
+    "kernel_shift": "False",
+    "downsampler": "Bicubic",
+
+    # degradation process
+    "sf": 4,
+    "k_size": 21,
+    "noise_level": [0.01, 15],
+    "noise_jpeg": [0.01, 10],
+
+    # hyper-parameters of our model
+    "eps2": 1e-5,
+    "r2": 1e-4,
+    "var_window": 9,
+    "kappa0": 50,
+    "penalty_K": [0.02, 2],    # little influence, [0.02, 1] degenerates to the loss of paper
+    "clip_grad_R": 5e2,
+    "clip_grad_S": 1e2, 
+    "clip_grad_K": 5e2
+}
