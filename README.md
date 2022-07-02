@@ -32,7 +32,7 @@ Blind image restoration (IR) is a common yet challenging problem in computer vis
 
 ## Real-world Noise Removal
 ### Training:
-1. Download the training datasets \([SIDD](ftp://sidd_user:sidd_2018@130.63.97.225/SIDD_Medium_Srgb.zip), [RENOIR](http://ani.stat.fsu.edu/~abarbu/Renoir.html) [Ploy](https://github.com/csjunxu/PolyU-Real-World-Noisy-Images-Dataset)\) and validation datasets \([noisy](ftp://sidd_user:sidd_2018@130.63.97.225/SIDD_Blocks/ValidationNoisyBlocksSrgb.mat), [groundtruth](ftp://sidd_user:sidd_2018@130.63.97.225/SIDD_Blocks/ValidationGtBlocksSrgb.mat)\).
+1. Download the training datasets [SIDD](ftp://sidd_user:sidd_2018@130.63.97.225/SIDD_Medium_Srgb.zip) and validation datasets \([noisy](ftp://sidd_user:sidd_2018@130.63.97.225/SIDD_Blocks/ValidationNoisyBlocksSrgb.mat), [groundtruth](ftp://sidd_user:sidd_2018@130.63.97.225/SIDD_Blocks/ValidationGtBlocksSrgb.mat)\).
 
 2. Crop the training datasets into small image patches using this [script](datasets/prepare_data/Denoising/SIDD/im2patch_train.py), and modify the [config](configs/denoising_real.json) file.
 
