@@ -83,7 +83,7 @@ conda activate virnet
 3. Begin to train:
 
 ```
-    python train_SISR.py --save_dir path_for_log --config configs/sisr_x4.json
+    CUDA_VISIBLE_DEVICES=gpu_id python train_SISR.py --save_dir path_for_log --config configs/sisr_x4.json
 ```
 
 ### :dolphin: Citation
