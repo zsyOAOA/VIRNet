@@ -284,10 +284,7 @@ def main():
     update_args(args, opts_parser)
 
     # set the available GPUs
-    num_gpus = len(args['gpu_id'])
-    gpus = ','.join([args['gpu_id'][i] for i in range(num_gpus)])
-    os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'
-    os.environ['CUDA_VISIBLE_DEVICES'] = gpus
+    num_gpus = torch.cuda.device_count()
     args['num_gpus'] = num_gpus
 
     # print the arg pamameters
@@ -301,7 +298,6 @@ def main():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--gpu_id', type=str, default=0, help="GPU ID, which allow multiple GPUs")
     parser.add_argument('--save_dir', default='./train_record', type=str, metavar='PATH',
                                                          help="Path to save the model and log file")
     parser.add_argument('--config', type=str, default="./configs/denoising_syn.json",

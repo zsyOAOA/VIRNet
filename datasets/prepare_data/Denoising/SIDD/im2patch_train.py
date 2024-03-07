@@ -31,11 +31,11 @@ path_all_noisy = sorted(path_all_noisy)
 path_all_gt = [x.replace('NOISY', 'GT') for x in path_all_noisy]
 print('Number of big images: {:d}'.format(len(path_all_gt)))
 
-pch_dir_noisy = Path(args.data_dir).parent / 'real_small_patchs' / 'noisy'
+pch_dir_noisy = Path(args.data_dir) / f'patchs{args.pch_size}' / 'noisy'
 if not pch_dir_noisy.exists():
     pch_dir_noisy.mkdir(parents=True)
 
-pch_dir_gt = Path(args.data_dir).parent / 'real_small_patchs' / 'gt'
+pch_dir_gt = Path(args.data_dir) / f'patchs{args.pch_size}' / 'gt'
 if not pch_dir_gt.exists():
     pch_dir_gt.mkdir(parents=True)
 

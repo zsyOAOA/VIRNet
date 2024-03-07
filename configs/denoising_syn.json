@@ -4,14 +4,13 @@
     "sigma_chn": 1, 
     "batch_size": 16, 
     "patch_size": 128, 
-    "epochs": 100,
+    "epochs": 120,
     "warmup_epochs": 5,   # epochs for warmup
     "lr": 1e-4,
     "lr_min": 1e-6,
     "print_freq": 100,
     "num_workers": 8, 
     "prefetch_factor": 2, 
-    "gpu_id": "0",
     "save_dir": "./models_save",
     "resume": "",
     "port": 1234,    # port for distributed training
@@ -25,10 +24,10 @@
     "extra_mode": "Input",      
 
     # training and validation data path
-    "CBSD_path": "/home/zongsheng/data/CBSD432",  # *.jpg
-    "WED_path":  "/home/zongsheng/data/waterloo",  # *.bmp
-    "Flickr":    "/home/zongsheng/data/Flickr2K/Flickr2K_HR", # *.png
-    "DIV2K":     "/home/zongsheng/data/DIV2K/train", # *.png
+    "CBSD_path": "/mnt/sfs-common/zsyue/database/CBSD/CBSD432",  # *.jpg
+    "WED_path":  "/mnt/sfs-common/zsyue/database/Waterloo/",  # *.bmp
+    "Flickr":    "/mnt/sfs-common/zsyue/database/Flickr2K/Flickr2K_HR", # *.png
+    "DIV2K":     "/mnt/sfs-common/zsyue/database/DIV2K/DIV2K_train_HR", # *.png
 
     # cliping the gradient
     "clip_grad_R": 1e3, 

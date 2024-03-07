@@ -4,13 +4,12 @@
     "sigma_chn": 1, # Number of channel for the estimated noise varaince map
     "hr_size": 144, 
     "batch_size": 16, 
-    "epochs": 100,
-    "lr": 1e-4,
-    "lr_min": 5e-6, 
+    "epochs": 120,
+    "lr": 2e-4,
+    "lr_min": 1e-6, 
     "print_freq": 100,
     "num_workers": 8, 
     "prefetch_factor": 2, 
-    "gpu_id": 0,
     "save_dir": "./train_save",
     "resume": "",
 
@@ -19,19 +18,19 @@
     "dep_K": 8,
     "n_feat": [96, 160, 224], 
     "n_resblocks": 2, 
-    "extra_mode": "Input",
+    "extra_mode": "Both",
     "noise_cond": "True",
     "kernel_cond": "True",
 
     # training and validation data path
-    "train_hr_patchs": "/home/jupyter/data/sisr_hr_patchs", 
+    "train_hr_patchs": "/mnt/sfs-common/zsyue/database/Flickr2K/pch512_hr", 
     "val_hr_path": "./test_data/Set14", # *.bmp,
     "add_jpeg": "False",
     "kernel_shift": "False",
     "downsampler": "Bicubic",
 
     # degradation process
-    "sf": 4,
+    "sf": 3,
     "k_size": 21,
     "noise_level": [0.01, 15],
     "noise_jpeg": [0.01, 10],

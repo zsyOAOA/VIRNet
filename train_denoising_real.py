@@ -106,8 +106,8 @@ def train_model(rank, args):
     train_dataset = RealTrain(noisy_dir=args['train_pch_dir'],
                               length=10000*args['batch_size'],
                               pch_size=args['patch_size'],
-                              renoir=util_opts.str2bool(args['add_renoir']),
-                              polyu=util_opts.str2bool(args['add_polyu']))
+                              renoir=False,
+                              polyu=False)
     if rank == 0:
         print('Number of Patches in training data set: {:d}'.format(train_dataset.num_images), flush=True)
     if args['num_gpus'] > 1:
@@ -276,10 +276,7 @@ def main():
     util_opts.update_args(args, opts_parser)
 
     # set the available GPUs
-    num_gpus = len(args['gpu_id'])
-    gpus = ','.join([args['gpu_id'][i] for i in range(num_gpus)])
-    os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'
-    os.environ['CUDA_VISIBLE_DEVICES'] = gpus
+    num_gpus = torch.cuda.device_count()
     args['num_gpus'] = num_gpus
 
     # print the arg pamameters
@@ -293,7 +290,6 @@ def main():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--gpu_id', type=str, default=0, help="GPU ID, which allow multiple GPUs")
     parser.add_argument('--save_dir', default='./models', type=str, metavar='PATH',
                                                              help="Path to save the model and log file")
     parser.add_argument('--config', type=str, default="./configs/denoising_real.json",

@@ -51,10 +51,7 @@ def main():
     util_opts.update_args(args, opts_parser)
 
     # set the available GPUs
-    num_gpus = len(args['gpu_id'])
-    gpus = ','.join([args['gpu_id'][i] for i in range(num_gpus)])
-    os.environ['CUDA_DEVICE_ORDER'] = 'PCI_BUS_ID'
-    os.environ['CUDA_VISIBLE_DEVICES'] = gpus
+    num_gpus = torch.cuda.device_count()
     args['dist'] = True if num_gpus > 1 else False
 
     # noise types
@@ -345,7 +342,6 @@ if __name__ == '__main__':
     # DDP parameters
     parser.add_argument('--local_rank', type=int, default=0, help="Passed by launch.py")
     # GPU settings
-    parser.add_argument('--gpu_id', type=str, default=0, help="GPU ID, which allow multiple GPUs")
     parser.add_argument('--config', type=str, default="./configs/sisr_x4.json",
                                                                     help="Path for the config file")
     parser.add_argument('--save_dir', default='./train_save', type=str, metavar='PATH',

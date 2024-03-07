@@ -6,7 +6,7 @@ import torch
 from math import pi, log, sqrt
 import torch.nn.functional as F
 import torch.distributions as tdist
-from utils import util_sisr
+from utils import util_sisr 
 from ResizeRight.resize_right import resize
 
 def cal_kl_inverse_gamma_simple(beta_q, alpha_p, beta_p):
@@ -16,7 +16,7 @@ def cal_kl_inverse_gamma_simple(beta_q, alpha_p, beta_p):
 def cal_kl_gauss_simple(mu_q, mu_p, var_p): return 0.5 * ((mu_q-mu_p)**2/var_p).mean()
 
 def cal_likelihood(x, mu_q, var_q, alpha_q, beta_q):
-    temp =  0.5 * (beta_q.log()-alpha_q.digamma() + alpha_q.div(beta_q)*((x-mu_q)**2+var_q))
+    temp =  0.5 * (beta_q.log()-alpha_q.digamma() + alpha_q.div(beta_q)*((x-mu_q)**2+var_q))  
     out = temp + 0.5*log(2*pi)
     return out.mean()
 
@@ -39,7 +39,7 @@ def elbo_denoising_simple(mu, sigma_est, im_noisy, im_gt, eps2, alpha0, beta0):
     beta = sigma_est * alpha0
     kl_Igamma = cal_kl_inverse_gamma_simple(beta, alpha0-1, beta0)
 
-    # likelihood
+    # likelihood 
     if isinstance(mu, list):
         lh = cal_likelihood(im_noisy, mu[0], eps2, alpha0-1, beta)
         for jj in range(1, len(mu)):
@@ -54,8 +54,8 @@ def elbo_denoising_simple(mu, sigma_est, im_noisy, im_gt, eps2, alpha0, beta0):
 
 def cal_likelihood_sisr(x, kernel, sf, mu_q, var_q, alpha_q, beta_q, downsampler):
     zz = mu_q + torch.randn_like(mu_q) * sqrt(var_q)
-    zz_blur = util_sisr.conv_multi_kernel_tensor(zz, kernel, sf, downsampler)
-    out = 0.5*log(2*pi) +  0.5*(beta_q.log()-alpha_q.digamma()) +  0.5*alpha_q.div(beta_q)*(x-zz_blur)**2
+    zz_blur = util_sisr.conv_multi_kernel_tensor(zz, kernel, sf, downsampler)   
+    out = 0.5*log(2*pi) +  0.5*(beta_q.log()-alpha_q.digamma()) +  0.5*alpha_q.div(beta_q)*(x-zz_blur)**2  
     return out.mean()
 
 def reparameter_inv_gamma(alpha, beta):

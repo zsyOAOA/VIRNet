@@ -10,7 +10,6 @@
     "print_freq": 100,
     "num_workers": 8, 
     "prefetch_factor": 2, 
-    "gpu_id": 0,
     "save_dir": "./train_record",
     "resume": "",
     "port": 1234,            # port for distributed training
@@ -23,9 +22,9 @@
     "extra_mode": "Input",       #  Null Input or Both
 
     # training and validation data path
-    "train_pch_dir":   "/data2/zongsheng/data/real_small_patchs/noisy",
-    "test_noisy_path": "/data2/zongsheng/data/SIDD/ValidationNoisyBlocksSrgb.mat",
-    "test_gt_path":    "/data2/zongsheng/data/SIDD/ValidationGtBlocksSrgb.mat", 
+    "train_pch_dir":   "/mnt/sfs-common/zsyue/database/SIDD/patchs256/noisy",
+    "test_noisy_path": "/mnt/sfs-common/zsyue/database/SIDD/ValidationNoisyBlocksSrgb.mat",
+    "test_gt_path":    "/mnt/sfs-common/zsyue/database/SIDD/ValidationGtBlocksSrgb.mat", 
 
     # cliping the gradient
     "clip_grad_R": 5e2,  
