@@ -24,6 +24,7 @@ conda activate virnet
 ```
 
 ## :snowflake: Testing Demo
+Befor testing, please first download the checkpoint from this [link](https://github.com/zsyOAOA/VIRNet/releases/tag/v1.0) and put them in the foloder "model_zoo".
 1. General testing demo.
 ```
     python script/testing_demo.py --task task_name --in_path: input_path --out_path: output_path --sf sr_scale
