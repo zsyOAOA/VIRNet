@@ -14,12 +14,14 @@ Blind image restoration (IR) is a common yet challenging problem in computer vis
 ---
 
 ## Requirements
-* Python 3.7.5, Pytorch 1.3.1
+* Python 3.8, Pytorch 1.13.0
 * More detail (See [environment.yml](environment.yml))
 A suitable [conda](https://conda.io/) environment named `virnet` can be created and activated with:
 
 ```
-conda env create -f environment.yaml
+conda create -n virnet python=3.8 -y
+conda install pytorch==1.13.0 torchvision==0.14.0 torchaudio==0.13.0 pytorch-cuda=11.6 -c pytorch -c nvidia
+pip install -r requirements.txt
 conda activate virnet
 ```
 
@@ -27,7 +29,7 @@ conda activate virnet
 Befor testing, please first download the checkpoint from this [link](https://github.com/zsyOAOA/VIRNet/releases/tag/v1.0) and put them in the foloder "model_zoo".
 1. General testing demo.
 ```
-    python script/testing_demo.py --task task_name --in_path: input_path --out_path: output_path --sf sr_scale
+    python scripts/testing_demo.py --task task_name --in_path: input_path --out_path: output_path --sf sr_scale
 ```
 + --task: task name, "denoising-syn", "denoising-real", "sisr"
 + --in_path: input path of the low-quality images, image path or folder  
@@ -36,23 +38,23 @@ Befor testing, please first download the checkpoint from this [link](https://git
 
 2. Reproduce the results in Table 1 of our paper.
 ```
-    python script/denoising_virnet_syn.py --save_dir output_path --noise_type niid
+    python scripts/denoising_virnet_syn.py --save_dir output_path --noise_type niid
 ```
 3. Reproduce the results in Table 2 of our paper.
 ```
-    python script/denoising_virnet_syn.py --save_dir output_path --noise_type iid
+    python scripts/denoising_virnet_syn.py --save_dir output_path --noise_type iid
 ```
 4. Reproduce the results on SIDD dataset in Table 4 of our paper.
 ```
-    python script/denoising_virnet_real_sidd.py --save_dir output_path --sidd_dir sidd_data_path
+    python scripts/denoising_virnet_real_sidd.py --save_dir output_path --sidd_dir sidd_data_path
 ```
 5. Reproduce the results on DND dataset in Table 4 of our paper.
 ```
-    python script/denoising_virnet_real_dnd.py --save_dir output_path --dnd_dir dnd_data_path
+    python scripts/denoising_virnet_real_dnd.py --save_dir output_path --dnd_dir dnd_data_path
 ```
 6. Reproduce the results of super-resolution in Table 5 of our paper.
 ```
-    python script/sisr_virnet_syn.py --save_dir output_path --sf 4 --nlevel 0.1
+    python scripts/sisr_virnet_syn.py --save_dir output_path --sf 4 --nlevel 0.1
 ```
 + --nlevel: noise level, 0.1, 2.55 or 7.65
 

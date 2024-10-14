@@ -1,0 +1,13 @@
+opencv-python==4.5.3.56
+tensorflow-gpu==2.10.0
+scikit-image
+lpips
+numpy
+scipy
+pillow
+h5py
+imageio
+matplotlib
+commentjson
+thop
+tqdm
